@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace를 인터페이스 경로와 맞춰줘야 주고 받는게 가능해진다-->
+<mapper namespace="kr.or.ksmart.ksmart_layout.mapper.UserMapper">
+
+	<select id="userUpdateById" parameterType="String" resultType="kr.or.ksmart.ksmart_vo.User">
+		SELECT 
+			u_id AS userId
+			,u_pw AS userPw
+			,u_level AS userLevel
+			,u_name AS userName
+			,u_email AS userEmail
+			,u_phone AS userPhone
+			,u_addr AS userAddr
+		FROM 
+			tb_user
+		WHERE
+			u_id = #{userId} 
+	</select>
+
+<!-- idsms userSearch로 선언 uk, uv 값을 받아서 쿼리문이 실행되기에 parameterType="String"
+회원검색시 User 클래스데이터 타입으로 단일 행이 검색될지 여러 행이 검색될지 모르기 때문에
+객체들의 배열로 결과값이 나올 수 있다는 점을 생각해야 한다-->
+	<select id="userSearch" parameterType="String" resultType="kr.or.ksmart.ksmart_vo.User">
+		SELECT 
+			u_id AS userId
+			,u_pw AS userPw
+			,u_level AS userLevel
+			,u_name AS userName
+			,u_email AS userEmail
+			,u_phone AS userPhone
+			,u_addr AS userAddr
+		FROM 
+			tb_user
+		<!-- 만약 uv값을 입력하지 않았을 때 검색버튼을 누르면 전체목록이 출력되게 하는 조건문을 추가한다 -->
+		<if test="uv neq null and uv neq ''.toString()">
+		WHERE
+			${uk} LIKE CONCAT('%', #{uv}, '%')
+		</if>
+	</select>
+<!-- id는 userList로 선언
+전체회원조회하면 결과값이 vo 패키지 내 User클래스 객체 타입이므로
+resultType을 kr.or.ksmart.ksmart_vo.User로 선언
+전체회원검색이라 리턴값이 객체들의 배열로 이루어질거라는 것을 생각해야 한다 -->
+	<select id="userList" resultType="kr.or.ksmart.ksmart_vo.User">
+	SELECT 
+		u_id AS userId
+		,u_pw AS userPw
+		,u_level AS userLevel
+		,u_name AS userName
+		,u_email AS userEmail
+		,u_phone AS userPhone
+		,u_addr AS userAddr
+	FROM 
+		tb_user
+	</select>
+<!-- id는 userInsert로 선언하고
+회원가입시 입력되는 데이터타입이 vo패키지 내 User클래스 객체 타입이므로
+parameterType을 kr.or.ksmart.ksmart_vo.User로 선언 -->
+	<insert id="userInsert" parameterType="kr.or.ksmart.ksmart_vo.User">
+		INSERT INTO tb_user(
+			u_id 
+			,u_pw
+			,u_level
+			,u_name
+			,u_email
+			,u_phone
+			,u_addr
+			)
+		VALUES(
+			#{userId}
+			,#{userPw}
+			,#{userLevel}
+			,#{userName}
+			,#{userEmail}
+			,#{userPhone}
+			,#{userAddr}
+			)
+	</insert>
+</mapper>

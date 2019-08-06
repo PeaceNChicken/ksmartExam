@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nx/thymeleaf/layout">
+	<div id="leftcolumn" th:fragment="leftmenuFragment">	
+		<div id="wrapper">
+	    <!-- Sidebar -->
+	    <ul class="sidebar navbar-nav">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="/userInsert">
+	        <i class="fas fa-user-plus"></i>
+	          <span>01회원가입</span>
+	        </a>
+	      </li>
+	      <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	         <i class="fas fa-users"></i>
+	          <span>02회원관리</span>
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+	          <a class="dropdown-item" href="/userList">회원전체목록</a>
+	          <a class="dropdown-item" href="/userSearch">회원검색</a>
+	          
+	        </div>
+	      </li>
+	     <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          <i class="fas fa-box-open"></i>
+	          <span>03상품관리</span></a>
+	          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+	          <a class="dropdown-item" href="#">상품전체목록</a>
+	          <a class="dropdown-item" href="#">상품등록</a>
+	          </div>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">
+	          <i class="fas fa-search"></i>
+	          <span>04상품전체검색</span></a>
+	      </li>
+	    </ul>
+	
+</html>

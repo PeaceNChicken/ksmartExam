@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<body>
+	<th:block layout:fragment="customTitle">
+		<title>가입화면</title>
+	</th:block>
+	<th:block layout:fragment="customContents">
+		<form action="/userInsert" method="post">	
+			<table border="1">
+				<tr>
+					<td>아이디</td>
+					<td><input type="text" name="userId" /></td>
+				</tr>
+				<tr>
+					<td>비밀번호</td>
+					<td><input type="password" name="userPw" /></td>
+				</tr>
+				<tr>
+					<td>권한</td>
+					<td>
+						<select name="userLevel">
+							<option value="">선택</option>
+							<option value="판매자">판매자</option>
+							<option value="구매자">구매자</option>
+							<option value="관리자">관리자</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>이름</td>
+					<td><input type="text" name="userName" /></td>
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" name="userEmail" /></td>
+				</tr>
+				<tr>
+					<td>전화번호</td>
+					<td><input type="text" name="userPhone" /></td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td><input type="text" name="userAddr" /></td>
+				</tr>
+				<tr style="text-align: center;">
+					<td colspan="2">
+					<button type="submit">회원가입</button>
+					</td>
+				</tr>
+			</table>
+		<label th:if="${result ne null}" th:text="${result}"></label>
+	</form>	
+	</th:block>
+	
+</body>
+</html>

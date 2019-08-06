@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<body>
+	<th:block layout:fragment="customTitle">
+		<title>회원검색</title>
+	</th:block>
+	<th:block layout:fragment="customContents">
+	<label><h3>검색화면</h3></label>
+	<form action="/userSearch" method="post">
+		목차:	<select name="uk">
+					<option value="">선택</option>		
+					<option value="u_id">아이디</option>		
+					<option value="u_level">권한</option>
+					<option value="u_name">이름</option>
+					<option value="u_addr">주소</option>
+				</select>
+		검색어:	<input type="text" name="uv">
+		<button type="submit">검색</button>
+	</form>
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td>비번</td>
+				<td>권한</td>
+				<td>이름</td>
+				<td>이메일</td>
+				<td>전화번호</td>
+				<td>주소</td>
+				<td>수정</td>
+				<td>삭제</td>
+			</tr>
+			<!-- model 객체에 uList라고 할당된 키값, 즉 uList 에 담긴 List<User>의 값들을 u변수로 선언하여
+			th:each문을 사용해 반복문 실행 -->
+			<tr th:each="u: ${uList}">
+				<td th:text="${u.userId}"></td>
+				<td th:text="${u.userPw}"></td>
+				<td th:text="${u.userLevel}"></td>
+				<td th:text="${u.userName}"></td>
+				<td th:text="${u.userEmail}"></td>
+				<td th:text="${u.userPhone}"></td>
+				<td th:text="${u.userAddr}"></td>
+				<td><a th:href="@{/userUpdate(userId=${u.userId})}">수정</a></td>
+				<td><a href="#">삭제</a></td>
+			</tr>
+		</table>
+	</th:block>
+</body>
+</html>
