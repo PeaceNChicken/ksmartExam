@@ -43,7 +43,13 @@ public class UserService {
 		return userMapper.userSearch(uk, uv);
 	}
 	
+	// Controller단에서 받은 요청을 처리하는데
+	// 쿼리실행결과는 User 클래스 데이터 타입으로 하나의 행이 출력되므로 User데이터 타입으로 메서드 선언하고
+	// controller단에서 전달된 userId값을 매개변수에 담아 실행한다.
 	public User userUpdateById(String userId) {
+		
+	// userMapper 인터페이스안에 있는 userUpdateById 메서드 호출해서
+	// 남은 결과값을 controller단에 리턴시켜준다.
 		return userMapper.userUpdateById(userId);
 	}
 	

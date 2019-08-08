@@ -4,6 +4,9 @@
 <!-- namespace를 인터페이스 경로와 맞춰줘야 주고 받는게 가능해진다-->
 <mapper namespace="kr.or.ksmart.ksmart_layout.mapper.UserMapper">
 
+<!-- UserMapper 인터페이스에 선언된 메서드에 맞춰 id를 userUpdateById로 선언 
+userId값만 받아왔으므로 parameterType은 String,
+결과값은 User 클래스 데이터타입으로 단일행이 검색되기에 resultType은 User 객체로 선언 -->
 	<select id="userUpdateById" parameterType="String" resultType="kr.or.ksmart.ksmart_vo.User">
 		SELECT 
 			u_id AS userId
@@ -19,7 +22,7 @@
 			u_id = #{userId} 
 	</select>
 
-<!-- idsms userSearch로 선언 uk, uv 값을 받아서 쿼리문이 실행되기에 parameterType="String"
+<!-- id를 userSearch로 선언 uk, uv 값을 받아서 쿼리문이 실행되기에 parameterType="String"
 회원검색시 User 클래스데이터 타입으로 단일 행이 검색될지 여러 행이 검색될지 모르기 때문에
 객체들의 배열로 결과값이 나올 수 있다는 점을 생각해야 한다-->
 	<select id="userSearch" parameterType="String" resultType="kr.or.ksmart.ksmart_vo.User">
@@ -39,6 +42,7 @@
 			${uk} LIKE CONCAT('%', #{uv}, '%')
 		</if>
 	</select>
+	
 <!-- id는 userList로 선언
 전체회원조회하면 결과값이 vo 패키지 내 User클래스 객체 타입이므로
 resultType을 kr.or.ksmart.ksmart_vo.User로 선언

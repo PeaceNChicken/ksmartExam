@@ -69,9 +69,12 @@ public class UserController {
 		//uList 변수에 담긴 값을 "uList"라고 정한 키의 값에 할당한다
 		return "/user/usearch/userSearch";
 	}
+	// 회원검색결과화면에서 수정버튼을 누르면 해당id의 정보들을 화면에 보여주는 것이 목표
+	// get방식으로 userUpdate url을 요청받을때 각 행의 id값을 가져와서 userUpdateById() 실행
 	@GetMapping("/userUpdate")
 	public String userUpdateById(@RequestParam(value="userId") String userId
 							,Model model) {
+		//service단에서 요청처리된 리턴값을 model객체에 담는데 "userById"라는 명칭으로 선언한다.
 		model.addAttribute("userById", userService.userUpdateById(userId));
 		
 		return "/user/uUpdate/userUpdate";

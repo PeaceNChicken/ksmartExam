@@ -21,5 +21,7 @@ public interface UserMapper {
 	// 객체들의 배열형태로 나타날 수도 있기 때문에 List<User>로 메서드 데이터타입을 선언한다.
 	public List<User> userSearch(String uk, String uv);
 	
+	// UserMapper.xml에서 id가 userUpdateById인 쿼리문을 호출하는 메서드
+	// 결과값이 행 하나로 나오기때문에 User 데이터타입으로 메서드 선언한다.
 	public User userUpdateById(String userId);
 }

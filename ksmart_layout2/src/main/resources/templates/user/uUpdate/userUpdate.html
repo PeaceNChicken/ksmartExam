@@ -11,6 +11,8 @@
 			<table border="1">
 				<tr>
 					<td>아이디</td>
+					<!-- get방식으로 /userUpdate 요청에 의해 응답된 User 데이터 타입의 값이 userById라는 명칭으로 controller단에서 넘어왔으니
+					필요한 데이터를 찾아 th:value형식으로 화면에 뿌려준다 -->
 					<td><input type="text" name="userId" readonly="readonly" th:value="${userById.userId}" /></td>
 				</tr>
 				<tr>
