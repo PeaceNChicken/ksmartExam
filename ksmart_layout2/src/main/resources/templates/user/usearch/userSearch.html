@@ -42,7 +42,7 @@
 				<td th:text="${u.userPhone}"></td>
 				<td th:text="${u.userAddr}"></td>
 				<td><a th:href="@{/userUpdate(userId=${u.userId})}">수정</a></td>
-				<td><a href="#">삭제</a></td>
+				<td><a th:href="@{/userDelete(userId=${u.userId})}">삭제</a></td>
 			</tr>
 		</table>
 	</th:block>
