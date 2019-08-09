@@ -4,23 +4,55 @@
 <!-- namespace를 인터페이스 경로와 맞춰줘야 주고 받는게 가능해진다-->
 <mapper namespace="kr.or.ksmart.ksmart_layout.mapper.UserMapper">
 
+<!--	@param	user - userId, userPw
+	  	@return	user 하나의 행
+	  	@detail	UserMapper 인터페이스에 선언된 메서드에 맞춰 id를 userLogin로 선언 
+				id와 비밀번호를 User클래스 데이터 타입으로 생성된 객체에 담아올거라 parameterType을 User 클래스 데이터 타입
+				id, 비밀번호가 제대로 입력되어 실행된다면 결과값으로 하나의 행이 남으므로 resultType도 User 클래스 데이터 타입-->
+	<select id="userLogin" parameterType="kr.or.ksmart.ksmart_vo.User" resultType="kr.or.ksmart.ksmart_vo.User">
+		SELECT 
+			u_id AS		userId
+			,u_pw AS	userPw
+			,u_level AS userLevel
+			,u_name AS	userName
+			,u_email AS userEmail
+			,u_phone AS userPhone
+			,u_addr AS	userAddr
+		FROM 
+			tb_user
+		WHERE
+			u_id= #{userId}
+		AND
+			u_pw= #{userPw}
+	</select>
+
+<!-- UserMapper 인터페이스에 선언된 메서드에 맞춰 id를 userDelete로 선언
+id와 비밀번호를 User클래스 데이터 타입으로 생성된 객체에 담아올것이기에 parameterType을 User 클래스 데이터 타입 -->
+	<delete id="userDelete" parameterType="kr.or.ksmart.ksmart_vo.User">
+		DELETE FROM tb_user
+		WHERE
+			u_id= #{userId} 
+		AND
+			u_pw= #{userPw}
+	</delete>
+
 <!-- UserMapper 인터페이스에 선언된 메서드에 맞춰 id를 userUpdate로 선언 
 userInsert와 동일하게 parameterType은 User 클래스 데이터 타입 
 if 조건문을 사용해서 수정 내용이 공백일 경우 해당 컬럼내용을 업데이트 쿼리문에 포함시키지않도록 하고
 mybatis에서 제공하는 trim문을 사용해 set부분에서 쿼리문에 포함될 행의 마지막 ','를
 자동으로 없애주도록 suffixOverrides 사용-->
 	<update id="userUpdate" parameterType="kr.or.ksmart.ksmart_vo.User">
-	UPDATE tb_user
-	<trim prefix="SET" suffixOverrides=",">
-		<if test="userPw != ''.toString()">u_pw=		#{userPw},</if>
-		<if test="userLevel != ''.toString()">u_level=	#{userLevel},</if>
-		<if test="userName != ''.toString()">u_name=	#{userName},</if>
-		<if test="userEmail != ''.toString()">u_email=	#{userEmail},</if>
-		<if test="userPhone != ''.toString()">u_phone=	#{userPhone},</if>
-		<if test="userAddr != ''.toString()">u_addr=	#{userAddr},</if>
-	</trim>
-	WHERE
-		u_id= #{userId}
+		UPDATE tb_user
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="userPw != ''.toString()">u_pw=		#{userPw},</if>
+			<if test="userLevel != ''.toString()">u_level=	#{userLevel},</if>
+			<if test="userName != ''.toString()">u_name=	#{userName},</if>
+			<if test="userEmail != ''.toString()">u_email=	#{userEmail},</if>
+			<if test="userPhone != ''.toString()">u_phone=	#{userPhone},</if>
+			<if test="userAddr != ''.toString()">u_addr=	#{userAddr},</if>
+		</trim>
+		WHERE
+			u_id= #{userId}
 	</update>
 <!-- UserMapper 인터페이스에 선언된 메서드에 맞춰 id를 userUpdateById로 선언 
 userId값만 받아왔으므로 parameterType은 String,

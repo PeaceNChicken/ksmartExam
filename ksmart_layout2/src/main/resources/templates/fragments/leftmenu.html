@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nx/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nx/thymeleaf/layout"
+	layout:decorate="~{layout/default}">>
 	<div id="leftcolumn" th:fragment="leftmenuFragment">	
+	
 		<div id="wrapper">
 	    <!-- Sidebar -->
 	    <ul class="sidebar navbar-nav">
@@ -28,7 +30,7 @@
 	          <span>03상품관리</span></a>
 	          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 	          <a class="dropdown-item" href="#">상품전체목록</a>
-	          <a class="dropdown-item" href="#">상품등록</a>
+	          <a class="dropdown-item" href="/addGoods">상품등록</a>
 	          </div>
 	      </li>
 	      <li class="nav-item">

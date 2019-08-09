@@ -1,6 +1,9 @@
 package kr.or.ksmart.ksmart_layout.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,69 @@ public class UserController {
 
 	@Autowired private UserService userService; //UserService 클래스 의존성 주입하는 어노테이션
 	
+	/* @param	session객체
+	 * @return 	index화면
+	 * @detail	get방식으로 /logout url 요청받으면 session.invalidate메서드 실행시켜 세션을 삭제하고
+	 			index화면으로 리다이렉트 시킨다*/
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	/* @param	user - userId, userPw
+	 * @return 	로그인실패시 /login/login, 로그인성공시 redirect:/
+	 * @detail	post방식으로 /login url 요청받으면 controller단에서 user객체참조변수에 
+	  			id와 pw를 담고 로그인 처리를 위해 생성되어있는 session객체와 model객체를 매개변수에 담아 메서드 실행
+	  			service단에서 map객체를 리턴받고자 Map클래스데이터타입으로 map객체참조변수를 선언하고
+	  			userService.userLogin(user) 실행해서 리턴값을 담는다 
+	  			map객체에 담긴 result 값을 String 타입으로 형변환하여 String데이터타입으로 선언한 result 변수에 담는다
+	  			map객체에 담긴 userLogin 값을 User 타입으로 형변환하여 User 데이터 타입으로 선언한 userLogin 변수에 담는다
+	  			조건문 result값이 "로그인성공" 이 아닐경우
+	  			model객체에 유효성검사 변수 result에 리턴받아서 형변환시킨 result 변수에 담긴 값을 
+	  			"result" 이름을 맞춰 담고 /login/login페이지로 돌아가게 한다
+	  			조건문 result값이 "로그인 성공"이라면 userLogin 변수에 담겨있는 id, level, name값을 
+	  			미리 생성해놓은 session객체 SID, SLEVEL, SNAME에 세팅해주고 index화면으로 리다이렉트 시킨다*/
+	@PostMapping("/login")
+	public String userLogin(User user, HttpSession session, Model model) {
+		Map<String, Object> map = userService.userLogin(user);
+		String result = (String) map.get("result");
+		User userLogin = (User) map.get("userLogin");
+		if(!result.equals("로그인성공")) {
+			model.addAttribute("result", result);
+			return "/login/login";
+		}
+		session.setAttribute("SID", userLogin.getUserId());
+		session.setAttribute("SLEVEL", userLogin.getUserLevel());
+		session.setAttribute("SNAME", userLogin.getUserName());
+		return "redirect:/";
+	}
+
+	/* @param /login url요청
+	 * @return /login/login 페이지
+	 * @detail get방식으로 /login url 요청받으면 controller단에서 /login/login 페이지를 화면에 출력
+	 */
+	@GetMapping("/login")
+	public String login() {
+		return "/login/login";
+	}
+		
+	// 회원삭제페이지에서 삭제버튼을 눌렀을 때 받아온 id와 입력한 비밀번호가 일치하면 삭제처리 되는것이 목표
+	// post방식으로 userDelete url 요청받을 때 user클래스데이터 타입으로 선언된 
+	// user객체참조변수에 id값과 비밀번호를 담아 userDelete 메서드 실행
+	// model 객체는 비밀번호가 일치하지 않았을때 텍스트와 id값을 다시 입력해주고 userDelete.html 페이지를 보여주기위해 매개변수에 선언
+	@PostMapping("/userDelete")
+	public String userDelete(User user, Model model) {
+		int result = userService.userDelete(user);
+		// result== 0이란말은 delete 쿼리문이 실행되지 않았다는 의미
+		if(result== 0) {
+			model.addAttribute("result", "비밀번호가 일치하지 않습니다");
+			model.addAttribute("userId", user.getUserId());
+			return "/user/uDelete/userDelete";
+		}
+		return "redirect:/userList";
+	}
+	
 	// 회원검색결과화면에서 삭제버튼을 누르면 해당id값을 담은채 삭제페이지로 이동하는 것이 목표
 	// get방식으로 userDelete url 요청을 받을 때 각 행의 id값을 받아와 userDelete 메서드 실행
 	@GetMapping("/userDelete")
@@ -25,7 +91,7 @@ public class UserController {
 		System.out.println(userId +"<--userDelete UserController"); //userId를 제대로 받아오는지 확인
 		// userUpdate화면띄울때와 동일한 패턴이다
 		// User 데이터 타입 리턴값을 userById라는 이름의 키에 담고 삭제화면으로 이동해서 아이디만 삭제화면에 뿌려줄것이다
-		model.addAttribute("userById", userService.userUpdateById(userId));
+		model.addAttribute("user", userService.userUpdateById(userId));
 		return "/user/uDelete/userDelete";
 	}
 	
@@ -84,15 +150,15 @@ public class UserController {
 	}
 	
 	// 회원가입form에서 정보를 입력하고 회원가입버튼을 눌러 /user/uinsert/userInsert에서 userInsert url을 요청하면 
-		// form에서 post방식으로 /userInsert url요청받으면 매개변수에 User클래스데이터 타입으로 입력한 회원가입 정보를 
-		// 매개변수 user에 담아 userInsert(User user) 메서드를 실행시키면서 service단으로 요청을 넘긴다
-		@PostMapping("/userInsert")  
-		public String userInsert(User user) {
-			userService.userInsert(user);
-			// userService.userInsert(user) 실행으로 정수값을 리턴받았지만 리턴값을 재사용할 필요가 없으니
-			// 처리과정을 끝마치면 되고 데이터 흐름이 막다른길에 도달했으므로  redirect를 사용해 localhost로 돌아가게끔 한다  
-			return "redirect:/";
-		}
+	// form에서 post방식으로 /userInsert url요청받으면 매개변수에 User클래스데이터 타입으로 입력한 회원가입 정보를 
+	// 매개변수 user에 담아 userInsert(User user) 메서드를 실행시키면서 service단으로 요청을 넘긴다
+	@PostMapping("/userInsert")  
+	public String userInsert(User user) {
+		userService.userInsert(user);
+		// userService.userInsert(user) 실행으로 정수값을 리턴받았지만 리턴값을 재사용할 필요가 없으니
+		// 처리과정을 끝마치면 되고 데이터 흐름이 막다른길에 도달했으므로  redirect를 사용해 localhost로 돌아가게끔 한다  
+		return "redirect:/";
+	}
 		
 	// defalut.html 에서 회원가입을 클릭해 userInsert url을 요청받으면 회원가입 화면이 떠야 하는게 목표이다
 	// get방식으로 요청받아서 아래의 userInsert() 실행되고 /user/uinsert/userInsert으로 요청 처리된 값을 화면에 뿌려준다

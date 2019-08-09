@@ -4,11 +4,12 @@
 	layout:decorate="~{layout/default}">
 <body>
 	<th:block layout:fragment="customTitle">
-		<title>회원수정화면</title>
+		<title>회원수정</title>
 	</th:block>
 	<th:block layout:fragment="customContents">
+	<label><h3>회원수정하기</h3></label>
 		<form action="/userUpdate" method="post">	
-			<table border="1">
+			<table class="table table-bordered table-sm">
 				<tr>
 					<td>아이디</td>
 					<!-- get방식으로 /userUpdate 요청에 의해 응답된 User 데이터 타입의 값이 userById라는 명칭으로 controller단에서 넘어왔으니
@@ -48,7 +49,7 @@
 				</tr>
 				<tr style="text-align: center;">
 					<td colspan="2">
-					<button type="submit">정보수정하기</button>
+					<button type="submit" class="btn btn-primary btn-block">정보수정하기</button>
 					</td>
 				</tr>
 			</table>

@@ -9,6 +9,16 @@ import kr.or.ksmart.ksmart_vo.User;
 @Mapper // UserMapper 인터페이스가 mapping 객체임을 인지시켜주는 어노테이션 
 public interface UserMapper {
 
+	/*	@param user - userId, userPw
+	 *	@return user 하나의 행
+	 *	@detail Usermapper.xml에서 id가 userLogin인 쿼리문을 호출하는 메서드
+	 			결과값에 행 하나가 남아 리턴될테니 메서드 데이터 타입은 User로 선언*/
+	public User userLogin(User user);
+	
+	// Usermapper.xml에서 id가 userDelete인 쿼리문을 호출하는 메서드
+	// 결과값에 행 하나가 update되고 정수값 1이 리턴될테니 메서드 데이터 타입은 int로 선언
+	public int userDelete(User user);
+	
 	// Usermapper.xml에서 id가 userUpdate인 쿼리문을 호출하는 메서드
 	// 결과값에 행 하나가 update되고 정수값 1이 리턴될테니 메서드 데이터 타입은 int로 선언
 	public int userUpdate(User user);

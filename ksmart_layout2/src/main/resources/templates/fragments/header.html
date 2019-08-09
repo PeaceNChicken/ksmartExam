@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nx/thymeleaf/layout">
-
 	<!-- Begin Header -->
 	<div id="header" th:fragment="headerFragment">
 		<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -25,26 +24,24 @@
 		    <!-- Navbar -->
 		    <ul class="navbar-nav ml-auto ml-md-0">
 		      <li class="nav-item dropdown no-arrow mx-1">
-		        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		          <i class="fas fa-sign-in-alt"></i>
+		        <a class="nav-link dropdown-toggle" th:href="@{/login}" id="messagesDropdown" th:if="${session.SID eq null}" data-toggle="tooltip" title="로그인">
+		          <i class="fas fa-sign-in-alt"></i>로그인
 		        </a>
 		      </li>
+		        <th:block th:unless="${session.SNAME eq null}">
+					<label class="nav-link dropdown no-arrow"  style="color:lightgreen;">
+					당신의 아이디 [[${session.SID}]] [[${session.SNAME}]] 님 
+					[[${session.SLEVEL}]] 권한</label>
+				</th:block>
 		      <li class="nav-item dropdown no-arrow">
-		        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		          <i class="fas fa-user-circle fa-fw"></i>
+		        <a class="nav-link dropdown-toggle" href="#" id="userDropdown"  th:unless="${session.SID eq null}"  data-toggle="modal" data-target="#logoutModal" title="로그아웃">
+		          <i class="fas fa-user-circle fa-fw"></i>로그아웃
 		        </a>
-		        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-		          <a class="dropdown-item" href="#">Settings</a>
-		          <a class="dropdown-item" href="#">Activity Log</a>
-		          <div class="dropdown-divider"></div>
-		          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-		        </div>
 		      </li>
 		    </ul>
 		
 		  </nav>
 	</div>
-	
 	<!-- End Header -->
-	
+
 </html>

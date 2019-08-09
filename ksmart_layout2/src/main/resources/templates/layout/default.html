@@ -12,12 +12,13 @@
 		</div>
 		<div th:replace="fragments/footer :: footerFragment"></div>
 	</div>
-	<!-- Scroll to Top Button-->
+	
+	<!-- 최상단으로 이동하게 하는 버튼-->
 	<a class="scroll-to-top rounded" href="#page-top">
 		<i class="fas fa-angle-up"></i>
 	</a>
 	
-	<!-- Logout Modal-->
+	<!-- 로그아웃 모달-->
 	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -30,7 +31,7 @@
 	      <div class="modal-body">현재 세션에서 나가시려면 로그아웃 버튼을 누르세요.</div>
 	      <div class="modal-footer">
 	        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-	        <a class="btn btn-primary" href="login.html">로그아웃</a>
+	        <a class="btn btn-primary" th:href="@{/logout}">로그아웃</a>
 	      </div>
 	    </div>
 	  </div>
