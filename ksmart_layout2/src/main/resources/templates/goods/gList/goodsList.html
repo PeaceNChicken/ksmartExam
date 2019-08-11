@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+
+<body>
+<div class="container">
+	<th:block layout:fragment="customTitle">
+		<title>상품목록</title>
+	</th:block>
+	<th:block layout:fragment="customContents">
+	<label>전체상품목록</label>
+		<table class="table table-hover table-sm table-bordered">
+			<tr>
+				<td>상품코드</td>
+				<td>등록아이디</td>
+				<td>상품이름</td>
+				<td>상품분류</td>
+				<td>상품가격</td>
+				<td>상품색깔</td>
+				<td>상품크기</td>
+				<td>등록날짜</td>
+				<td>상세정보</td>
+			</tr>
+			<!-- model 객체에 gList라고 할당된 키값, 즉 gList 에 담긴 List<Goods>의 값들을 g변수로 선언하여
+			th:each문을 사용해 반복문 실행 -->
+			<tr th:each="g: ${gList}">
+				<td th:text="${g.goodsCode}"></td>
+				<td th:text="${g.goodsUserId}"></td>
+				<td th:text="${g.goodsName}"></td>
+				<td th:text="${g.goodsCate}"></td>
+				<td th:text="${g.goodsPrice}"></td>
+				<td th:text="${g.goodsColor}"></td>
+				<td th:text="${g.goodsSize}"></td>
+				<td th:text="${g.goodsDate}"></td>
+				<td th:text="${g.goodsDesc}"></td>
+			</tr>
+		</table>
+	</th:block>
+</div>
+</body>
+</html>

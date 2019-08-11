@@ -14,7 +14,7 @@ public class Goods {
 	public String getGoodsCode() {
 		return goodsCode;
 	}
-	public void setGoodCode(String goodsCode) {
+	public void setGoodsCode(String goodsCode) {
 		this.goodsCode = goodsCode;
 	}
 	public String getgoodsUserId() {

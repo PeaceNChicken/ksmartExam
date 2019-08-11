@@ -3,4 +3,58 @@
 
 <mapper namespace="kr.or.ksmart.ksmart_layout.mapper.GoodsMapper">
 
+	<select id="goodsList" resultType="kr.or.ksmart.ksmart_vo.Goods">
+		SELECT 	
+			g_code	AS goodsCode, 
+			u_id	AS goodsUserId, 
+			g_name	AS goodsName, 
+			g_cate	AS goodsCate, 
+			g_price	AS goodsPrice, 
+			g_color	AS goodsColor, 
+			g_size	AS goodsSize, 
+			g_date	AS goodsDate, 
+			g_desc	AS goodsDesc
+		FROM 
+			tb_goods
+	</select>
+
+<!--  @param	goods 객체
+	  @return 	쿼리문 실행후 등록된 1행에 해당하는 정수값 1
+	  @detail	service단에서 요청받은 mapper 객체 내 메서드 호출시 service단에서 받은 goods 객체에 담긴 값들을
+	  			value값으로 binding 해서 쿼리문 실행하는데 실행이 제대로 되었다면 정수값 1이 리턴, 안되었다면 0을 리턴 -->
+	<insert id="addGoods" parameterType="kr.or.ksmart.ksmart_vo.Goods">
+		INSERT INTO tb_goods
+		(
+			g_code,
+			u_id,
+			g_name,
+			g_cate,
+			g_price,
+			g_color,
+			g_size,
+			g_date,
+			g_desc
+		)
+		VALUES
+		(
+			#{goodsCode},
+			#{goodsUserId},
+			#{goodsName},
+			#{goodsCate},
+			#{goodsPrice},
+			#{goodsColor},
+			#{goodsSize},
+			NOW(),
+			#{goodsDesc}
+		)
+	</insert>
+<!--  @param	goodsMapper.getCodeMax();
+	  @return 	g_code 컬럼내 7자리부터 자른 값 중 가장 큰 숫자값
+	  @detail	g_code 컬럼 내용을 자동증가로 하고싶은데 goods_ 라는 문자열은 그대로 놓고 뒤에 숫자만 증가시키게 하고 싶다
+	  			그래서 g_code컬럼에서 substr를 써서 7째부터 자른 값을 고정소수점 숫자 decimal형태로 받아온 후 목록중에
+	  			가장 큰 숫자를 찾는 select문을 준비해놓는다  -->
+	<select id="getCodeMax" resultType="int" >
+			SELECT MAX(CAST(SUBSTR(g_code, 7) AS DECIMAL)) FROM tb_goods
+	</select>
+	
 </mapper>
